@@ -1,0 +1,7 @@
+C:\Users\kzez1986\Source\Repos\DBExamples\SimpleDataSet\SimpleDataSet\bin\Debug\SimpleDataSet.exe.config
+C:\Users\kzez1986\Source\Repos\DBExamples\SimpleDataSet\SimpleDataSet\bin\Debug\SimpleDataSet.exe
+C:\Users\kzez1986\Source\Repos\DBExamples\SimpleDataSet\SimpleDataSet\bin\Debug\SimpleDataSet.pdb
+C:\Users\kzez1986\Source\Repos\DBExamples\SimpleDataSet\SimpleDataSet\obj\Debug\SimpleDataSet.csprojAssemblyReference.cache
+C:\Users\kzez1986\Source\Repos\DBExamples\SimpleDataSet\SimpleDataSet\obj\Debug\SimpleDataSet.csproj.CoreCompileInputs.cache
+C:\Users\kzez1986\Source\Repos\DBExamples\SimpleDataSet\SimpleDataSet\obj\Debug\SimpleDataSet.exe
+C:\Users\kzez1986\Source\Repos\DBExamples\SimpleDataSet\SimpleDataSet\obj\Debug\SimpleDataSet.pdb
