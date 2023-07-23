@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Data;
 using static System.Console;
 using System.Collections;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SimpleDataSet
 {
@@ -22,6 +25,7 @@ namespace SimpleDataSet
             carsInventoryDS.ExtendedProperties["Company"] = "Mikko's Hot Tub Super Store";
             FillDataSet(carsInventoryDS);
             PrintDataSet(carsInventoryDS);
+            SaveAndLoadAsXml(carsInventoryDS);
             ReadLine();
 
         }
@@ -102,11 +106,12 @@ namespace SimpleDataSet
 
                 for (var curCol = 0; curCol < dt.Columns.Count; curCol++)
                 {
-                    Write($"{dt.Columns[curCol].ColumnName}\t");
+                    Write($"{dt.Columns[curCol].ColumnName.Trim()}\t");
                 }
 
                 WriteLine("\n---------------------------------------------");
 
+                /*
                 for(var curRow = 0; curRow < dt.Rows.Count; curRow++)
                 {
                     for(var curCol = 0; curCol < dt.Columns.Count; curCol++)
@@ -115,8 +120,48 @@ namespace SimpleDataSet
                     }
                     WriteLine();
                 }
+                */
+
+                PrintTable(dt);
             }
         }
+
+        static void PrintTable(DataTable dt)
+        {
+            DataTableReader dtReader = dt.CreateDataReader();
+
+            while(dtReader.Read())
+            {
+                for(var i = 0; i < dtReader.FieldCount; i++)
+                {
+                    Write($"{dtReader.GetValue(i).ToString().Trim()}\t");
+                }
+                WriteLine();
+            }
+
+            dtReader.Close();
+        }
         
+        static void SaveAndLoadAsXml(DataSet carsInventoryDS)
+        {
+            carsInventoryDS.RemotingFormat = SerializationFormat.Binary;
+
+            var fs = new FileStream("BinaryCars.bin", FileMode.Create);
+            var bFormat = new BinaryFormatter();
+            bFormat.Serialize(fs, carsInventoryDS);
+            fs.Close();
+
+            carsInventoryDS.Clear();
+            fs = new FileStream("BinaryCars.bin", FileMode.Open);
+            var data = (DataSet)bFormat.Deserialize(fs);
+            
+            carsInventoryDS.WriteXml("carsDataSet.xml");
+            carsInventoryDS.WriteXmlSchema("carsDataSet.xsd");
+
+            carsInventoryDS.Clear();
+
+            carsInventoryDS.ReadXml("carsDataSet.xml");
+        }
+
     }
 }
