@@ -1,0 +1,7 @@
+C:\Users\kzez1986\Source\Repos\FillDataSetUsingSqlDataAdapter\FillDataSetUsingSqlDataAdapter\bin\Debug\FillDataSetUsingSqlDataAdapter.exe.config
+C:\Users\kzez1986\Source\Repos\FillDataSetUsingSqlDataAdapter\FillDataSetUsingSqlDataAdapter\bin\Debug\FillDataSetUsingSqlDataAdapter.exe
+C:\Users\kzez1986\Source\Repos\FillDataSetUsingSqlDataAdapter\FillDataSetUsingSqlDataAdapter\bin\Debug\FillDataSetUsingSqlDataAdapter.pdb
+C:\Users\kzez1986\Source\Repos\FillDataSetUsingSqlDataAdapter\FillDataSetUsingSqlDataAdapter\obj\Debug\FillDataSetUsingSqlDataAdapter.csprojAssemblyReference.cache
+C:\Users\kzez1986\Source\Repos\FillDataSetUsingSqlDataAdapter\FillDataSetUsingSqlDataAdapter\obj\Debug\FillDataSetUsingSqlDataAdapter.csproj.CoreCompileInputs.cache
+C:\Users\kzez1986\Source\Repos\FillDataSetUsingSqlDataAdapter\FillDataSetUsingSqlDataAdapter\obj\Debug\FillDataSetUsingSqlDataAdapter.exe
+C:\Users\kzez1986\Source\Repos\FillDataSetUsingSqlDataAdapter\FillDataSetUsingSqlDataAdapter\obj\Debug\FillDataSetUsingSqlDataAdapter.pdb

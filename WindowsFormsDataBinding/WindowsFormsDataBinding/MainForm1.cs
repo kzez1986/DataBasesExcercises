@@ -12,6 +12,8 @@ namespace WindowsFormsDataBinding
 {
     public partial class MainForm1 : Form
     {
+        DataView yugosOnlyView;
+        
         List<Car> listCars = null;
 
         DataTable inventoryTable = new DataTable();
@@ -32,6 +34,7 @@ namespace WindowsFormsDataBinding
             };
 
             CreateDataTable();
+            CreateDataView();
         }
 
         void CreateDataTable()
@@ -54,6 +57,15 @@ namespace WindowsFormsDataBinding
             }
 
             carInventoryGridView.DataSource = inventoryTable;
+        }
+
+        private void CreateDataView()
+        {
+            yugosOnlyView = new DataView(inventoryTable);
+
+            yugosOnlyView.RowFilter = "Make = 'Yugo'";
+
+            dataGridYugosView.DataSource = yugosOnlyView;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -117,6 +129,20 @@ namespace WindowsFormsDataBinding
         private void btnIDGreaterThenFive_Click(object sender, EventArgs e)
         {
             ShowCarsWithIdGreaterThanFive();
+        }
+
+        private void btnChangeMakes_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes != MessageBox.Show("Are you sure?? BWMs are much nicer than Yugos!", "Please Confirm!", MessageBoxButtons.YesNo))
+                return;
+            string filterStr = "Make='BMW'";
+
+            DataRow[] makes = inventoryTable.Select(filterStr);
+
+            for (int i = 0; i < makes.Length; i++)
+            {
+                makes[i]["Make"] = "Yugo";
+            }
         }
     }
 }
