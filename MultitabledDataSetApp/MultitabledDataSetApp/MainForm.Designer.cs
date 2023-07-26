@@ -35,9 +35,14 @@
             this.dataGridViewCustomers = new System.Windows.Forms.DataGridView();
             this.dataGridViewOrders = new System.Windows.Forms.DataGridView();
             this.btnUpdateDatabase = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtCustID = new System.Windows.Forms.TextBox();
+            this.btnGetOrderInfo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInventory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCustomers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOrders)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -96,18 +101,58 @@
             // 
             // btnUpdateDatabase
             // 
-            this.btnUpdateDatabase.Location = new System.Drawing.Point(790, 401);
+            this.btnUpdateDatabase.Location = new System.Drawing.Point(772, 401);
             this.btnUpdateDatabase.Name = "btnUpdateDatabase";
             this.btnUpdateDatabase.Size = new System.Drawing.Size(170, 23);
             this.btnUpdateDatabase.TabIndex = 6;
             this.btnUpdateDatabase.Text = "Update Database";
             this.btnUpdateDatabase.UseVisualStyleBackColor = true;
+            this.btnUpdateDatabase.Click += new System.EventHandler(this.btnUpdateDatabase_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnGetOrderInfo);
+            this.groupBox1.Controls.Add(this.txtCustID);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Location = new System.Drawing.Point(772, 464);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(576, 138);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Lookup Customer Order";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 33);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(68, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Customer ID:";
+            // 
+            // txtCustID
+            // 
+            this.txtCustID.Location = new System.Drawing.Point(107, 33);
+            this.txtCustID.Name = "txtCustID";
+            this.txtCustID.Size = new System.Drawing.Size(100, 20);
+            this.txtCustID.TabIndex = 1;
+            // 
+            // btnGetOrderInfo
+            // 
+            this.btnGetOrderInfo.Location = new System.Drawing.Point(107, 78);
+            this.btnGetOrderInfo.Name = "btnGetOrderInfo";
+            this.btnGetOrderInfo.Size = new System.Drawing.Size(100, 23);
+            this.btnGetOrderInfo.TabIndex = 2;
+            this.btnGetOrderInfo.Text = "Get Order Details";
+            this.btnGetOrderInfo.UseVisualStyleBackColor = true;
+            this.btnGetOrderInfo.Click += new System.EventHandler(this.btnGetOrderInfo_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1434, 627);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnUpdateDatabase);
             this.Controls.Add(this.dataGridViewOrders);
             this.Controls.Add(this.dataGridViewCustomers);
@@ -121,6 +166,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInventory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCustomers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOrders)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,6 +182,10 @@
         private System.Windows.Forms.DataGridView dataGridViewCustomers;
         private System.Windows.Forms.DataGridView dataGridViewOrders;
         private System.Windows.Forms.Button btnUpdateDatabase;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnGetOrderInfo;
+        private System.Windows.Forms.TextBox txtCustID;
+        private System.Windows.Forms.Label label4;
     }
 }
 
