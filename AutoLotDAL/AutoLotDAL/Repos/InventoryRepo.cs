@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AutoLotDAL.Repos
 {
-    class InventoryRepo : BaseRepo<Inventory>, IRepo<Inventory>
+    public class InventoryRepo : BaseRepo<Inventory>, IRepo<Inventory>
     {
         public InventoryRepo()
         {

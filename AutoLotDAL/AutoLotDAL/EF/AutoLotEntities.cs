@@ -16,18 +16,25 @@ namespace AutoLotDAL.EF
         // connection string in the application configuration file.
         public AutoLotEntities()
             : base("name=AutoLotConnection")
-        {
+        { }
             public virtual DbSet<CreditRisk> CreditRisks { get; set; }
             public virtual DbSet<Customer> Customers { get; set; }
             public virtual DbSet<Inventory> Inventory { get; set; }
             public virtual DbSet<Order> Orders { get; set; }
-        }
+
 
         // Add a DbSet for each entity type that you want to include in your model. For more information 
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
+        protected override void Dispose(bool disposing)
+        {
+            //DbInterception.Remove(DatabaseLogger);
+            //DatabaseLogger.StopLogging();
+            base.Dispose(disposing);
+        }
     }
+
 
     //public class MyEntity
     //{

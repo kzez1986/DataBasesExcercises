@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AutoLotDAL.Repos
 {
-    class OrderRepo : BaseRepo<Order>, IRepo<Order>
+    public class OrderRepo : BaseRepo<Order>, IRepo<Order>
     {
         public OrderRepo()
         {

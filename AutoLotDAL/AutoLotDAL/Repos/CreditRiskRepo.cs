@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AutoLotDAL.Repos
 {
-    class CreditRiskRepo : BaseRepo<CreditRisk>, IRepo<CreditRisk>
+    public class CreditRiskRepo : BaseRepo<CreditRisk>, IRepo<CreditRisk>
     {
         public CreditRiskRepo()
         {
