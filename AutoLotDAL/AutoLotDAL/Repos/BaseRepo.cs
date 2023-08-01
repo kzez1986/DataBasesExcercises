@@ -10,9 +10,10 @@ using AutoLotDAL.EF;
 
 namespace AutoLotDAL.Repos
 {
-    public abstract class BaseRepo<T> where T:class,new()
+    public abstract class BaseRepo<T> :IDisposable where T:class,new()
     {
         public AutoLotEntities Context { get; } = new AutoLotEntities();
+
         protected DbSet<T> Table;
 
         internal int SaveChanges()
@@ -120,11 +121,31 @@ namespace AutoLotDAL.Repos
             return SaveChangesAsync();
         }
 
+        bool disposed = false;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+            if (disposing)
+            {
+                Context.Dispose();
+            }
+
+            disposed = true;
+        }
 
     }
 
     public abstract class BaseRepo: IDisposable
     {
+
+
         protected AutoLotEntities Context { get; } = new AutoLotEntities();
 
         internal int SaveChanges()
@@ -186,7 +207,7 @@ namespace AutoLotDAL.Repos
         {
             if (disposed)
                 return;
-            if(disposing)
+            if (disposing)
             {
                 Context.Dispose();
             }
@@ -194,7 +215,7 @@ namespace AutoLotDAL.Repos
             disposed = true;
         }
 
-        
+
     }
 
     

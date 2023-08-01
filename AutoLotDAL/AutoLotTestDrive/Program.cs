@@ -24,6 +24,7 @@ namespace AutoLotTestDrive
             AddNewRecord(car2);
             AddNewRecords(new List<Inventory> { car1, car2 });
             PrintAllInventory();
+            ShowAllOrders();
             ReadLine();
         }
 
@@ -62,6 +63,22 @@ namespace AutoLotTestDrive
                 if(carToUpdate != null)
                 {
                     WriteLine("Before change: " + repo.Context.Entry(carToUpdate).State);
+                    carToUpdate.Color = "Blue";
+                    WriteLine("After change: " + repo.Context.Entry(carToUpdate).State);
+                    repo.Save(carToUpdate);
+                    WriteLine("After save: " + repo.Context.Entry(carToUpdate).State);
+                }
+            }
+        }
+
+        private static void ShowAllOrders()
+        {
+            using(var repo = new OrderRepo())
+            {
+                WriteLine("*************** Pending Orders *****************");
+                foreach(var itm in repo.GetAll())
+                {
+                    WriteLine($"->{itm.Customer.FullName} is waiting on {itm.Car.PetName}");
                 }
             }
         }
