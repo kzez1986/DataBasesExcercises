@@ -6,9 +6,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 using static System.Console;
 using AutoLotDAL.Repos;
+using System.Data.Entity.Infrastructure;
 
 namespace AutoLotTestDrive
 {
@@ -16,7 +18,7 @@ namespace AutoLotTestDrive
     {
         static void Main(string[] args)
         {
-            Database.SetInitializer(new DataInitializer());
+            //Database.SetInitializer(new DataInitializer());
             WriteLine("***** Fun with ADO.NET EF Code First *****\n");
             var car1 = new Inventory() { Make = "Yugo", Color = "Brown", PetName = "Brownie" };
             var car2 = new Inventory() { Make = "SmartCar", Color = "Brown", PetName = "Shorty" };
@@ -25,6 +27,15 @@ namespace AutoLotTestDrive
             AddNewRecords(new List<Inventory> { car1, car2 });
             PrintAllInventory();
             ShowAllOrders();
+            ShowAllOrdersEagerlyFetched();
+
+            PrintAllCustomersAndCreditRisks();
+            var customerRepo = new CustomerRepo();
+            var customer = customerRepo.GetOne(4);
+            customerRepo.Context.Entry(customer).State = EntityState.Detached;
+            var risk = MakeCustomerARisk(customer);
+            PrintAllCustomersAndCreditRisks();
+
             ReadLine();
         }
 
@@ -79,6 +90,63 @@ namespace AutoLotTestDrive
                 foreach(var itm in repo.GetAll())
                 {
                     WriteLine($"->{itm.Customer.FullName} is waiting on {itm.Car.PetName}");
+                }
+            }
+        }
+
+        private static void ShowAllOrdersEagerlyFetched()
+        {
+            using (var context = new AutoLotEntities())
+            {
+                WriteLine("**************** Pending Orders **********************");
+                var orders = context.Orders.Include(x => x.Customer).Include(y => y.Car).ToList();
+                foreach (var itm in orders)
+                {
+                    WriteLine($"->{itm.Customer.FullName} is waiting on {itm.Car.PetName}");
+                }
+            }
+        }
+
+        private static CreditRisk MakeCustomerARisk(Customer customer)
+        {
+            using (var context = new AutoLotEntities())
+            {
+                context.Customers.Attach(customer);
+                context.Customers.Remove(customer);
+                var creditRisk = new CreditRisk()
+                {
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName
+                };
+                context.CreditRisks.Add(creditRisk);
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch(DbUpdateException ex)
+                {
+                    WriteLine(ex);
+                }
+                return creditRisk;
+            }
+        }
+
+        private static void PrintAllCustomersAndCreditRisks()
+        {
+            WriteLine("********** Customers **********");
+            using (var repo = new CustomerRepo())
+            {
+                foreach(var cust in repo.GetAll())
+                {
+                    WriteLine($"->{cust.FirstName} {cust.LastName} is a Customer.");
+                }
+            }
+            WriteLine("********** Credit Risks **********");
+            using (var repo = new CreditRiskRepo())
+            {
+                foreach(var risk in repo.GetAll())
+                {
+                    WriteLine($"->{risk.FirstName} {risk.LastName} is a Credit Risk!");
                 }
             }
         }
