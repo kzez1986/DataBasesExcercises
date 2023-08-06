@@ -6,6 +6,11 @@ namespace AutoLotDAL.EF
 
     using AutoLotDAL.Models;
 
+    using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Infrastructure.Interception;
+    using AutoLotDAL.Interception;
+    using System.Data.Entity.Core.Objects;
+
     public class AutoLotEntities : DbContext
     {
         // Your context has been configured to use a 'AutoLotEntities' connection string from your application's 
@@ -14,10 +19,26 @@ namespace AutoLotDAL.EF
         // 
         // If you wish to target a different database and/or database provider, modify the 'AutoLotEntities' 
         // connection string in the application configuration file.
+        static readonly DatabaseLogger DatabaseLogger = new DatabaseLogger("sqllog.txt", true);
+        
         public AutoLotEntities()
             : base("name=AutoLotConnection")
-        { }
-            public virtual DbSet<CreditRisk> CreditRisks { get; set; }
+        {
+            DbInterception.Add(new ConsoleWriterInterception());
+
+            DatabaseLogger.StartLogging();
+            
+            DbInterception.Add(DatabaseLogger);
+
+            var context = (this as IObjectContextAdapter).ObjectContext;
+            context.ObjectMaterialized += OnObjectMaterialized;
+            context.SavingChanges += OnSavingChanges;
+
+            //DatabaseLogger.StartLogging();
+            //DbInterception.Add(DatabaseLogger);
+
+        }
+        public virtual DbSet<CreditRisk> CreditRisks { get; set; }
             public virtual DbSet<Customer> Customers { get; set; }
             public virtual DbSet<Inventory> Inventory { get; set; }
             public virtual DbSet<Order> Orders { get; set; }
@@ -29,9 +50,33 @@ namespace AutoLotDAL.EF
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
         protected override void Dispose(bool disposing)
         {
-            //DbInterception.Remove(DatabaseLogger);
-            //DatabaseLogger.StopLogging();
+            DbInterception.Remove(DatabaseLogger);
+            DatabaseLogger.StopLogging();
             base.Dispose(disposing);
+
+
+        }
+
+        public void OnSavingChanges(object sender, EventArgs eventArgs)
+        {
+            var context = sender as ObjectContext;
+            if (context == null) return;
+            foreach (ObjectStateEntry item in context.ObjectStateManager.GetObjectStateEntries(EntityState.Modified | EntityState.Added))
+            {
+                if((item.Entity as Inventory) != null)
+                {
+                    var entity = (Inventory)item.Entity;
+                    if(entity.Color == "Red")
+                    {
+                        item.RejectPropertyChanges(nameof(entity.Color));
+                    }
+                }
+            }
+        }
+
+        private void OnObjectMaterialized(object sender, System.Data.Entity.Core.Objects.ObjectMaterializedEventArgs e)
+        {
+
         }
     }
 

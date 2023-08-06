@@ -6,7 +6,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
 
 using static System.Console;
 using AutoLotDAL.Repos;
@@ -31,10 +30,13 @@ namespace AutoLotTestDrive
 
             PrintAllCustomersAndCreditRisks();
             var customerRepo = new CustomerRepo();
-            var customer = customerRepo.GetOne(4);
+            var customer = customerRepo.GetOne(1);
             customerRepo.Context.Entry(customer).State = EntityState.Detached;
             var risk = MakeCustomerARisk(customer);
             PrintAllCustomersAndCreditRisks();
+
+            AutoLotEntities autoLotEntities = new AutoLotEntities();
+
 
             ReadLine();
         }
@@ -94,6 +96,30 @@ namespace AutoLotTestDrive
             }
         }
 
+        public static void UpdateRecordWithConcurrency()
+        {
+            var car = new Inventory() { Make = "Yugo", Color = "Brown", PetName = "Brownie" };
+            AddNewRecord(car);
+            var repo1 = new InventoryRepo();
+            var car1 = repo1.GetOne(car.CarId);
+            car1.PetName = "Updated";
+
+            var repo2 = new InventoryRepo();
+            var car2 = repo2.GetOne(car.CarId);
+            car2.Make = "Nissan";
+
+            repo1.Save(car1);
+            try
+            {
+                repo2.Save(car2);
+            }
+            catch(DbUpdateConcurrencyException ex)
+            {
+                WriteLine(ex);
+            }
+            //RemoveRecordById(car1.CarId, car1.Timestamp);
+        }
+
         private static void ShowAllOrdersEagerlyFetched()
         {
             using (var context = new AutoLotEntities())
@@ -119,6 +145,12 @@ namespace AutoLotTestDrive
                     LastName = customer.LastName
                 };
                 context.CreditRisks.Add(creditRisk);
+                var creditRiskDupe = new CreditRisk()
+                {
+                    FirstName = customer.FirstName,
+                    LastName = customer.LastName
+                };
+                context.CreditRisks.Add(creditRiskDupe);
                 try
                 {
                     context.SaveChanges();

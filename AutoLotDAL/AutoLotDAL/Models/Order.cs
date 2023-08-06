@@ -17,6 +17,8 @@ namespace AutoLotDAL.Models
         public int CustId { get; set; }
         [Required]
         public int CarId { get; set; }
+        [Timestamp]
+        public byte[] Timestamp { get; set; }
         [ForeignKey("CarId")]
         public virtual Customer Customer { get; set; }
         [ForeignKey("CarId")]
